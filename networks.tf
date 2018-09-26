@@ -13,6 +13,7 @@ resource "azurerm_subnet" "infrastructure_subnet" {
   virtual_network_name = "${azurerm_virtual_network.pcf_virtual_network.name}"
   address_prefix       = "${var.pcf_infrastructure_subnet}"
   network_security_group_id = "${azurerm_network_security_group.ops_manager_security_group.id}"
+  service_endpoints    = ["Microsoft.Sql"]
 }
 
 resource "azurerm_subnet" "pas_subnet" {
@@ -22,6 +23,7 @@ resource "azurerm_subnet" "pas_subnet" {
   virtual_network_name = "${azurerm_virtual_network.pcf_virtual_network.name}"
   address_prefix       = "${var.pcf_pas_subnet}"
   network_security_group_id = "${azurerm_network_security_group.bosh_deployed_vms_security_group.id}"
+  service_endpoints    = ["Microsoft.Sql"]
 }
 
 resource "azurerm_subnet" "services_subnet" {
@@ -31,6 +33,7 @@ resource "azurerm_subnet" "services_subnet" {
   virtual_network_name = "${azurerm_virtual_network.pcf_virtual_network.name}"
   address_prefix       = "${var.pcf_services_subnet}"
   network_security_group_id = "${azurerm_network_security_group.bosh_deployed_vms_security_group.id}"
+  service_endpoints    = ["Microsoft.Sql"]
 }
 
 resource "azurerm_subnet" "dynamic_services_subnet" {

@@ -30,14 +30,6 @@ output "optional_ops_manager_dns" {
   value = "${element(concat(azurerm_dns_a_record.optional_ops_manager_dns.*.name, list("")), 0)}.${element(concat(azurerm_dns_a_record.optional_ops_manager_dns.*.zone_name, list("")), 0)}"
 }
 
-output "mysql_dns" {
-  value = "mysql.${azurerm_dns_a_record.mysql.zone_name}"
-}
-
-output "tcp_domain" {
-  value = "tcp.${azurerm_dns_a_record.tcp.zone_name}"
-}
-
 output "sys_domain" {
   value = "sys.${azurerm_dns_a_record.sys.zone_name}"
 }
@@ -76,14 +68,6 @@ output "web_lb_name" {
 
 output "diego_ssh_lb_name" {
   value = "${azurerm_lb.diego-ssh.name}"
-}
-
-output "mysql_lb_name" {
-  value = "${azurerm_lb.mysql.name}"
-}
-
-output "tcp_lb_name" {
-  value = "${azurerm_lb.tcp.name}"
 }
 
 output "network_name" {
@@ -174,10 +158,6 @@ output "ops_manager_storage_account" {
   value = "${azurerm_storage_account.ops_manager_storage_account.name}"
 }
 
-output "wildcard_vm_storage_account" {
-  value = "*${var.env_short_name}${data.template_file.base_storage_account_wildcard.rendered}*"
-}
-
 output "cf_storage_account_name" {
   value = "${azurerm_storage_account.cf_storage_account.name}"
 }
@@ -250,4 +230,17 @@ output "management_subnet_cidrs" {
 
 output "management_subnet_gateway" {
   value = "${cidrhost(azurerm_subnet.infrastructure_subnet.address_prefix, 1)}"
+}
+
+output "sb_sql_username" {
+  value     = "${element(concat(azurerm_sql_server.sbsql.*.administrator_login, list("")), 0)}"
+}
+
+output "sb_sql_password" {
+  sensitive = true
+  value     = "${element(concat(random_id.sb_db_password.*.b64, list("")), 0)}"
+}
+
+output "sb_sql_fqdn" {
+  value = "${element(concat(azurerm_sql_server.sbsql.*.fully_qualified_domain_name, list("")), 0)}"
 }

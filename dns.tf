@@ -47,19 +47,3 @@ resource "azurerm_dns_a_record" "ssh" {
   ttl                 = "60"
   records             = ["${azurerm_public_ip.diego-ssh-lb-public-ip.ip_address}"]
 }
-
-resource "azurerm_dns_a_record" "mysql" {
-  name                = "mysql"
-  zone_name           = "${azurerm_dns_zone.env_dns_zone.name}"
-  resource_group_name = "${azurerm_resource_group.pcf_resource_group.name}"
-  ttl                 = "60"
-  records             = ["${azurerm_lb.mysql.frontend_ip_configuration.0.private_ip_address}"]
-}
-
-resource "azurerm_dns_a_record" "tcp" {
-  name                = "tcp"
-  zone_name           = "${azurerm_dns_zone.env_dns_zone.name}"
-  resource_group_name = "${azurerm_resource_group.pcf_resource_group.name}"
-  ttl                 = "60"
-  records             = ["${azurerm_public_ip.tcp-lb-public-ip.ip_address}"]
-}
